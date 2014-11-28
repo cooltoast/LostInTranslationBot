@@ -1,6 +1,4 @@
-[Rick and Morty Twitter Bot](https://twitter.com/RickAndMortyBot)
+[Google Translate Twitter Bot](https://twitter.com/googtransbot)
 =========================
  
-I found a purpose for [Rick's butter robot.](https://www.youtube.com/watch?v=3ht-ZyJOV2k)
-
-Tweets random Rick and Morty quotes, taken from [here](http://www.rickandmortytime.com/wiki/Quotes).
+Grabs famous quotes from [here](https://www.goodreads.com/quotes?page=1), translates them to and from other languages in [Google Translate](https://translate.google.com/), and tweets the almost recognizable product.
