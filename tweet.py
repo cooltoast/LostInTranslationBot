@@ -10,7 +10,7 @@ def translateQuote(quote, language):
   translated = gs.translate(quote, language)
   return gs.translate(translated, "en", language)
 
-def tweetQuote(language):
+def tweetQuote(language, page):
   data = open('keys.json')
   keys = json.load(data)
   data.close()
@@ -19,7 +19,7 @@ def tweetQuote(language):
   auth.set_access_token(keys["access_key"], keys["access_secret"])
   api = tweepy.API(auth)
 
-  quotes = QuoteModule.getQuotes()
+  quotes = QuoteModule.getQuotes(page)
   if not quotes:
     return False
 
@@ -46,5 +46,8 @@ def tweetQuote(language):
   return True
 
 if __name__ == '__main__':
-  tweetQuote("ja")
+  tweetQuote("ja", 4)
+  tweetQuote("ja", 5)
+  tweetQuote("ja", 6)
+  tweetQuote("ja", 7)
 

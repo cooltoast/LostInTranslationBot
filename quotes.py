@@ -3,8 +3,9 @@ import os
 import pickle
 from pyquery import PyQuery as pq
 
-def generateQuotes():
-  d = pq(url="https://www.goodreads.com/quotes?page=1")
+def generateQuotes(page):
+  URL = "https://www.goodreads.com/quotes?page=%s" % page
+  d = pq(url=URL)
   quotesStr = d('.quoteText').text()
 
   quotes = quotesStr.split(u'\u201c')
@@ -13,16 +14,17 @@ def generateQuotes():
 
   return quotes
 
-def getQuotes():
-  if not os.path.exists('quotes.pkl'):
-    quotes = generateQuotes()
-    with open('quotes.pkl', 'w') as f:
+def getQuotes(page):
+  fileName = 'quotes%s.pkl' % page
+  if not os.path.exists(fileName):
+    quotes = generateQuotes(page)
+    with open(fileName, 'w') as f:
       pickle.dump(quotes, f)
   else:
-    with open('quotes.pkl', 'r') as f:
+    with open(fileName, 'r') as f:
       quotes = pickle.load(f)
 
   return quotes
 
 if __name__ == '__main__':
-  getQuotes()
+  getQuotes(1)
