@@ -39,6 +39,11 @@ def tweetQuote(language, page):
       # dont stop if duplicate status happens
       print "TweepError: %s" % e
       continue
+    except goslate.Error as e:
+      # goslate length restriction
+      print "goslate.Error: %s" % e
+      continue
+
 
     # tweet again in 20 min
     time.sleep(60*20)
