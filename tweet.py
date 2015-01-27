@@ -51,6 +51,6 @@ def tweetQuote(language, page):
   return True
 
 if __name__ == '__main__':
-  for i in range (71):
+  for i in range (81):
     tweetQuote("ja", i)
 
