@@ -1,16 +1,16 @@
 #!/usr/bin/python
 import tweepy, time, sys
-import goslate
+from textblob import TextBlob
 import json
 import random
 import quotes as QuoteModule
 
 def translateQuote(quote, language):
-  gs = goslate.Goslate()
-  translated = gs.translate(quote, language)
-  return gs.translate(translated, "en", language)
+  t = TextBlob(quote)
+  translated = t.translate(to=language)
+  return translated.translate(to='en').string
 
-def tweetQuote(language, page):
+def tweetQuote(page):
   data = open('keys.json')
   keys = json.load(data)
   data.close()
@@ -24,6 +24,9 @@ def tweetQuote(language, page):
     return False
 
   while (len(quotes) > 0):
+    languages = ['ja', 'zh-TW', 'ko', 'th', 'hi']
+    language = random.choice(languages)
+    print 'using language %s' % language
     quotePair = quotes.pop(random.randint(0, len(quotes)-1))
 
     if len(quotePair) is not 2:
@@ -39,9 +42,8 @@ def tweetQuote(language, page):
       # dont stop if duplicate status happens
       print "TweepError: %s" % e
       continue
-    except goslate.Error as e:
-      # goslate length restriction
-      print "goslate.Error: %s" % e
+    except Exception as e:
+      print "textblob.Error: %s" % e
       continue
 
 
@@ -52,5 +54,5 @@ def tweetQuote(language, page):
 
 if __name__ == '__main__':
   for i in range (101):
-    tweetQuote("ja", i)
+    tweetQuote(i)
 
