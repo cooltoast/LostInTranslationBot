@@ -1,4 +1,3 @@
-import goslate
 import os
 import pickle
 from pyquery import PyQuery as pq

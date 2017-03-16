@@ -1,20 +1,21 @@
 #!/usr/bin/python
-import tweepy, time, sys
-from textblob import TextBlob
 import json
-import random
 import quotes as QuoteModule
+import random
+import sys
+import tweepy
+import time
+from microsofttranslator import Translator
+
+data = open('keys.json')
+keys = json.load(data)
+data.close()
+translator = Translator(keys['translate_client_id'], keys['translate_client_secret'])
 
 def translateQuote(quote, language):
-  t = TextBlob(quote)
-  translated = t.translate(to=language)
-  return translated.translate(to='en').string
+  return translator.translate(translator.translate(quote, language), 'en')
 
 def tweetQuote(page):
-  data = open('keys.json')
-  keys = json.load(data)
-  data.close()
-
   auth = tweepy.OAuthHandler(keys["consumer_key"], keys["consumer_secret"])
   auth.set_access_token(keys["access_key"], keys["access_secret"])
   api = tweepy.API(auth)
@@ -43,7 +44,7 @@ def tweetQuote(page):
       print "TweepError: %s" % e
       continue
     except Exception as e:
-      print "textblob.Error: %s" % e
+      print "Error: %s" % e
       continue
 
 
