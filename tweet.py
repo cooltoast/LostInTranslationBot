@@ -11,9 +11,11 @@ data = open('keys.json')
 keys = json.load(data)
 data.close()
 translator = Translator(keys['translate_client_id'], keys['translate_client_secret'])
+languages = ['ja', 'zh-TW', 'ko', 'th', 'hi']
 
-def translateQuote(quote, language):
-  return translator.translate(translator.translate(quote, language), 'en')
+def translateQuote(quote):
+  random.shuffle(languages)
+  return reduce(translator.translate, languages + ['en'], quote)
 
 def tweetQuote(page):
   auth = tweepy.OAuthHandler(keys["consumer_key"], keys["consumer_secret"])
@@ -25,16 +27,13 @@ def tweetQuote(page):
     return False
 
   while (len(quotes) > 0):
-    languages = ['ja', 'zh-TW', 'ko', 'th', 'hi']
-    language = random.choice(languages)
-    print 'using language %s' % language
     quotePair = quotes.pop(random.randint(0, len(quotes)-1))
 
     if len(quotePair) is not 2:
       continue
 
     try:
-      translated = translateQuote(quotePair[0], language)
+      translated = translateQuote(quotePair[0])
       author = quotePair[1].split(",")[0]
       quote = "%s - %s" % (translated, author)
       api.update_status(quote)
